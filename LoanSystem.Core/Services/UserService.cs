@@ -19,10 +19,11 @@ namespace LoanSystem.Core.Services
             _unitOfWork = unitOfWork;
         }
 
-        public Task<User> GetUser(int id)
+        public async Task<User> GetUser(int id)
         {
 
-            throw new NotImplementedException();
+            return await _unitOfWork.UserRepository.GetById(id);
+
         }
 
         public Task<List<User>> GetUsers()
@@ -31,19 +32,21 @@ namespace LoanSystem.Core.Services
             return _unitOfWork.UserRepository.Get();
         }
 
-        public Task PostUser(User user)
+        public async Task PostUser(User user)
+        {
+            
+        }
+
+        public async Task<bool> PutUser(User user)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> PutUser(User user)
+        public async  Task<bool> DeleteUser(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> DeleteUser(int id)
-        {
-            throw new NotImplementedException();
+            await _unitOfWork.UserRepository.DeleteById(id);
+            await _unitOfWork.SaveChangesAsync();
+            return true;
         }
 
     }
