@@ -1,10 +1,8 @@
 ﻿using System;
+using LoanSystem.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
-// If you have enabled NRTs for your project, then un-comment the following line:
-// #nullable disable
 
 namespace LoanSystem.Infrastructure.Data
 {
@@ -22,9 +20,6 @@ namespace LoanSystem.Infrastructure.Data
         public virtual DbSet<Loan> Loan { get; set; }
         public virtual DbSet<Payment> Payment { get; set; }
         public virtual DbSet<User> User { get; set; }
-
-        
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Loan>(entity =>
