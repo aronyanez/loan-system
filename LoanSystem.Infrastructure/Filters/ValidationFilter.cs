@@ -16,7 +16,11 @@ namespace LoanSystem.Infrastructure.Filters
            if(!context.ModelState.IsValid)
             {
                 context.Result = new BadRequestObjectResult(context.ModelState);
-            }    
+                return;
+            }
+
+            await next();
+           
         }
     }
 }

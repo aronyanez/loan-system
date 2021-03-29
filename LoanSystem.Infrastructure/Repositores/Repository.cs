@@ -27,25 +27,26 @@ namespace LoanSystem.Infrastructure.Repositores
             return _repository.ToListAsync();
         }
 
-        public Task<T> GetById(int id)
+        public async Task<T> GetById(int id)
         {
-            throw new NotImplementedException();
+            return await _repository.FindAsync(id);
         }
 
-        public Task Post(T entity)
+        public async  Task Post(T entity)
         {
-            throw new NotImplementedException();
+            await _repository.AddAsync( entity );
         }
 
         public void Put(T entity)
         {
-            throw new NotImplementedException();
+            _repository.Update(entity);
         }
 
 
-        public Task DeleteById(int id)
+        public async  Task DeleteById(int id)
         {
-            throw new NotImplementedException();
+            T entity = await GetById(id);
+            _repository.Remove(entity);
         }
 
     }

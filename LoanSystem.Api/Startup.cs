@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation.AspNetCore;
+using LoanSystem.Core.Entities;
 using LoanSystem.Core.Interfaces;
 using LoanSystem.Core.Services;
 using LoanSystem.Infrastructure.Data;
@@ -35,13 +37,18 @@ namespace LoanSystem.Api
         {
 
 
-            services.AddControllers().AddNewtonsoftJson(options =>
+            services.AddControllers(
+               options =>
+               {
+                   options.Filters.Add<GlobalExceptionFilter>();
+               }
+                ).AddNewtonsoftJson(options =>
            {
                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 
            }).ConfigureApiBehaviorOptions(option =>
           {
-              option.SuppressModelStateInvalidFilter = true;
+              //option.SuppressModelStateInvalidFilter = true;
           });
 
 
@@ -51,7 +58,7 @@ namespace LoanSystem.Api
             //Auto Mapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IService<User>, UserService>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
@@ -60,7 +67,10 @@ namespace LoanSystem.Api
             services.AddMvc(options =>
            {
                options.Filters.Add<ValidationFilter>();
-           });
+           }).AddFluentValidation(options =>
+                  {
+                      options.RegisterValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
+                  });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
